@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All API &#8212; MDA  documentation</title>
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <script src="static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="MDA" href="quickstart.html" />
+   
+  <link rel="stylesheet" href="static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-mda">
+<span id="all-api"></span><h1>All API<a class="headerlink" href="#module-mda" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="mda.draw_triangle">
+<code class="sig-prename descclassname">mda.</code><code class="sig-name descname">draw_triangle</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prob</span></em>, <em class="sig-param"><span class="n">group</span></em>, <em class="sig-param"><span class="n">group_names</span></em>, <em class="sig-param"><span class="n">colors</span><span class="o">=</span><span class="default_value">array([[1, 0, 0], [0, 1, 0], [0, 0, 1]])</span></em>, <em class="sig-param"><span class="n">figsize</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">fs</span><span class="o">=</span><span class="default_value">12</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">ka</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mda.draw_triangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws triangular plot from LDA probabilities between 3 groups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prob</strong> (<em>numpy.ndarray</em><em>(</em><em>shape=</em><em>(</em><em>n_cell</em><em>,</em><em>3</em><em>)</em><em>)</em>) – Probability of each cell being assigned to each group using coordinates on MDA.</p></li>
+<li><p><strong>group</strong> (<em>numpy.ndarray</em><em>(</em><em>shape=</em><em>(</em><em>n_cell</em><em>,</em><em>)</em><em>)</em>) – Group ID of each cell. Values must be 0,1,2, matching prob.shape[1].</p></li>
+<li><p><strong>group_names</strong> (<em>List of str</em>) – Names of groups.</p></li>
+<li><p><strong>colors</strong> (<em>numpy.ndarray</em><em>(</em><em>shape=</em><em>(</em><em>3</em><em>,</em><em>3</em><em>)</em><em>)</em>) – Colors in [r,g,b] format for each group (as rows). 0&lt;=r,g,b&lt;=1</p></li>
+<li><p><strong>figsize</strong> (<em>float</em>) – Figure size (each dimension)</p></li>
+<li><p><strong>fs</strong> (<em>float</em>) – Font size</p></li>
+<li><p><strong>ka</strong> (<em>dict</em>) – Keyword arguments passed to seaborn.kdeplot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Figure drawn</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>matplotlib.pyplot.figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mda.mda">
+<code class="sig-prename descclassname">mda.</code><code class="sig-name descname">mda</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">group</span></em>, <em class="sig-param"><span class="n">datatype</span><span class="o">=</span><span class="default_value">'raw'</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">ka</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mda.mda" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the Maximal Discriminating Axes (MDA) between cell groups in scRNA-seq.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>numpy.ndarray</em><em>(</em><em>shape=</em><em>(</em><em>n_gene</em><em>,</em><em>n_cell</em><em>)</em><em>)</em>) – Gene expression matrix. Can be raw read counts or log(CPM+1).</p></li>
+<li><p><strong>group</strong> (<em>numpy.ndarray</em><em>(</em><em>shape=</em><em>(</em><em>n_cell</em><em>,</em><em>)</em><em>)</em>) – Group ID of each cell. Each group must have at least 2 cells.
+Values must cover 0 to n_group-1.</p></li>
+<li><p><strong>datatype</strong> (<em>str</em>) – <p>Type of data.</p>
+<ul>
+<li><p>raw:  Raw read counts</p></li>
+<li><p>lcpm: Log(CPM+1). Natural log.</p></li>
+</ul>
+</p></li>
+<li><p><strong>ka</strong> (<em>dict</em>) – Keyword arguments passed to sklearn.discriminant_analysis.LinearDiscriminantAnalysis</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>loc</strong> (<em>numpy.ndarray(shape=(n_cell,n_group-1))</em>) – Coordinates of each cell on the (n_group-1) dimensional MDA.</p></li>
+<li><p><strong>prob</strong> (<em>numpy.ndarray(shape=(n_cell,n_group))</em>) – Probability of each cell being assigned to each group using coordinates on MDA.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mda.sphere2tri">
+<code class="sig-prename descclassname">mda.</code><code class="sig-name descname">sphere2tri</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">d</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mda.sphere2tri" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts 3-dimensional probabilities to two-dimensional coordinates within unit triangle.</p>
+<p>Uses stereographic projection from (0,0,-1), (0,-1,0), (-1,0,0), and then average.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>d</strong> (<em>numpy.ndarray</em><em>(</em><em>shape=</em><em>(</em><em>3</em><em>,</em><em>n_cell</em><em>)</em><em>)</em>) – Input 3-dimensional probabilities</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Two-dimensional coordinates within unit triangle at [0,0],[1,0],[0.5,sqrt(3)/2]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray(shape=(2,n_cell))</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mda.sphere2tri1">
+<code class="sig-prename descclassname">mda.</code><code class="sig-name descname">sphere2tri1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">d</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mda.sphere2tri1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts 3-dimensional sqrt probabilities to two-dimensional coordinates within unit triangle.</p>
+<p>Uses stereographic projection from (0,0,-1).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>d</strong> (<em>numpy.ndarray</em><em>(</em><em>shape=</em><em>(</em><em>3</em><em>,</em><em>n_cell</em><em>)</em><em>)</em>) – Input 3-dimensional probabilities</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Two-dimensional coordinates within unit triangle at [0,0],[1,0],[0.5,sqrt(3)/2]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray(shape=(2,n_cell))</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">MDA</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">All API</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="quickstart.html" title="previous chapter">MDA</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Lingfei Wang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="sources/all_api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
